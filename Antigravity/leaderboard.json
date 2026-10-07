@@ -1,0 +1,32 @@
+[
+  {
+    "callsign": "CIPHER_X",
+    "time": "00:58.12",
+    "seconds": 58.12,
+    "date": "2026-10-07 16:07"
+  },
+  {
+    "callsign": "NEO_PHREAK",
+    "time": "01:14.20",
+    "seconds": 74.2,
+    "date": "2099-10-01"
+  },
+  {
+    "callsign": "ZERO_COOL",
+    "time": "01:38.85",
+    "seconds": 98.85,
+    "date": "2099-10-03"
+  },
+  {
+    "callsign": "GHOST_RUNNER",
+    "time": "02:05.12",
+    "seconds": 125.12,
+    "date": "2099-10-05"
+  },
+  {
+    "callsign": "ACID_BURN",
+    "time": "02:42.30",
+    "seconds": 162.3,
+    "date": "2099-10-06"
+  }
+]

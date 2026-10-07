@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER//BREACH: Cyberpunk Terminal Escape Room</title>
+  <meta name="description" content="A high-stakes Cyberpunk Computer Escape Room. Crack 3 security locks using terminal commands like scan, inspect, solve, and unlock before time runs out.">
+  <!-- Google Fonts: Orbitron, Share Tech Mono, Rajdhani -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="crt-overlay">
+  <!-- Ambient Audio & Scanlines Toggle Bar -->
+  <div class="cyber-background-grid" aria-hidden="true"></div>
+  <div class="floating-particles" id="particles" aria-hidden="true"></div>
+
+  <!-- MAIN HUD WRAPPER -->
+  <div class="hud-container">
+
+    <!-- TOP HEADER -->
+    <header class="cyber-header">
+      <div class="header-left">
+        <div class="cyber-logo">
+          <span class="logo-glitch" data-text="CYBER//BREACH">CYBER//BREACH</span>
+          <span class="system-tag">MAINFRAME LOCKDOWN v4.09</span>
+        </div>
+        <div class="status-pill status-alert">
+          <span class="blinking-dot"></span>
+          <span id="system-status-text">SYSTEM IN LOCKDOWN</span>
+        </div>
+      </div>
+
+      <!-- TOP RIGHT STOPWATCH -->
+      <div class="header-right">
+        <div class="stopwatch-card" id="stopwatch-container">
+          <div class="stopwatch-header">
+            <span class="stopwatch-icon">⏱</span>
+            <span class="stopwatch-label">ESCAPE TIMER</span>
+            <span class="stopwatch-indicator" id="timer-status-dot"></span>
+          </div>
+          <div class="stopwatch-display" id="stopwatch-display">00:00.00</div>
+          <div class="stopwatch-footer">
+            <span id="stopwatch-subtext">STATUS: ACTIVE</span>
+            <span class="best-time-badge" id="best-time-badge">BEST: --:--.--</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT GRID: LOCK STATUS HUD (TOP/SIDE) + COMPUTER TERMINAL (CENTER) -->
+    <main class="cyber-main-layout">
+      
+      <!-- LOCKS & SECURITY MATRIX PANEL -->
+      <section class="security-panel" aria-label="Security Status">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="neon-icon">⚡</span>
+            <span>SECURITY FIREWALLS</span>
+          </div>
+          <div class="firewall-gauge">
+            <span class="gauge-label">INTEGRITY:</span>
+            <span class="gauge-val" id="integrity-value">100%</span>
+          </div>
+        </div>
+
+        <div class="locks-grid">
+          <!-- LOCK 1: LOGIC CORE -->
+          <div class="lock-card locked" id="lock-card-1" data-lock="1">
+            <div class="lock-header">
+              <span class="lock-num">LAYER 01</span>
+              <span class="lock-type">LOGIC CORE</span>
+              <span class="lock-badge" id="lock-badge-1">LOCKED</span>
+            </div>
+            <div class="lock-visual">
+              <div class="lock-holo-ring">
+                <div class="ring-spinner"></div>
+                <div class="lock-icon" id="lock-icon-1">🔒</div>
+              </div>
+            </div>
+            <div class="lock-info">
+              <div class="lock-title" id="lock-title-1">Logic Puzzle Matrix</div>
+              <div class="lock-status-note" id="lock-status-1">Awaiting inspection... Type <code>inspect 1</code></div>
+            </div>
+            <div class="lock-progress-bar">
+              <div class="progress-fill" id="progress-1" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- LOCK 2: QUIZ VAULT -->
+          <div class="lock-card locked" id="lock-card-2" data-lock="2">
+            <div class="lock-header">
+              <span class="lock-num">LAYER 02</span>
+              <span class="lock-type">CYBER QUIZ</span>
+              <span class="lock-badge" id="lock-badge-2">LOCKED</span>
+            </div>
+            <div class="lock-visual">
+              <div class="lock-holo-ring">
+                <div class="ring-spinner"></div>
+                <div class="lock-icon" id="lock-icon-2">🔒</div>
+              </div>
+            </div>
+            <div class="lock-info">
+              <div class="lock-title" id="lock-title-2">Security Quiz Protocol</div>
+              <div class="lock-status-note" id="lock-status-2">Encrypted. Unlock Layer 1 first.</div>
+            </div>
+            <div class="lock-progress-bar">
+              <div class="progress-fill" id="progress-2" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- LOCK 3: MAINFRAME KERNEL -->
+          <div class="lock-card locked" id="lock-card-3" data-lock="3">
+            <div class="lock-header">
+              <span class="lock-num">LAYER 03</span>
+              <span class="lock-type">SYSTEM KERNEL</span>
+              <span class="lock-badge" id="lock-badge-3">LOCKED</span>
+            </div>
+            <div class="lock-visual">
+              <div class="lock-holo-ring">
+                <div class="ring-spinner"></div>
+                <div class="lock-icon" id="lock-icon-3">🔒</div>
+              </div>
+            </div>
+            <div class="lock-info">
+              <div class="lock-title" id="lock-title-3">Computer System Override</div>
+              <div class="lock-status-note" id="lock-status-3">Core locked. Final barrier.</div>
+            </div>
+            <div class="lock-progress-bar">
+              <div class="progress-fill" id="progress-3" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK TELEMETRY & CONTROLS -->
+        <div class="telemetry-bar">
+          <div class="telemetry-item">
+            <span class="telem-label">NODES CRACKED:</span>
+            <span class="telem-val" id="solved-count">0 / 3</span>
+          </div>
+          <div class="telemetry-item">
+            <span class="telem-label">TERMINAL PROTOCOL:</span>
+            <span class="telem-val neon-cyan">SSH-2099v2</span>
+          </div>
+          <div class="telemetry-controls">
+            <button class="cyber-btn-small" id="toggle-sound-btn" title="Toggle Sound">
+              <span id="sound-icon">🔊</span> AUDIO ON
+            </button>
+            <button class="cyber-btn-small" id="toggle-crt-btn" title="Toggle Scanline FX">
+              <span>📺</span> CRT FX
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPUTER TERMINAL PANEL -->
+      <section class="terminal-panel" aria-label="Hacker Terminal Window">
+        <!-- TERMINAL WINDOW HEADER -->
+        <div class="terminal-topbar">
+          <div class="window-buttons">
+            <span class="win-btn close"></span>
+            <span class="win-btn minimize"></span>
+            <span class="win-btn maximize"></span>
+          </div>
+          <div class="terminal-title">
+            <span class="term-host">root@mainframe-gateway</span>
+            <span class="term-path">: /sys/security/escape_vault #</span>
+          </div>
+          <div class="term-badges">
+            <span class="badge-status-live">CONNECTED</span>
+          </div>
+        </div>
+
+        <!-- QUICK COMMAND CHIPS BAR -->
+        <div class="command-chips-bar" aria-label="Quick Command Codewords">
+          <span class="chips-label">CODEWORDS:</span>
+          <button class="chip-btn" data-cmd="help">help</button>
+          <button class="chip-btn" data-cmd="scan">scan</button>
+          <button class="chip-btn" data-cmd="inspect 1">inspect</button>
+          <button class="chip-btn" data-cmd="solve ">solve</button>
+          <button class="chip-btn" data-cmd="unlock">unlock</button>
+          <button class="chip-btn" data-cmd="reset">reset</button>
+          <button class="chip-btn" data-cmd="clear">clear</button>
+        </div>
+
+        <!-- TERMINAL OUTPUT LOG -->
+        <div class="terminal-screen" id="terminal-screen" tabindex="0" role="log" aria-live="polite">
+          <div id="terminal-output"></div>
+          <div id="terminal-anchor"></div>
+        </div>
+
+        <!-- TERMINAL INPUT LINE -->
+        <form class="terminal-input-bar" id="terminal-form" autocomplete="off">
+          <label for="terminal-input" class="prompt-symbol">
+            <span class="prompt-user">guest</span><span class="prompt-at">@</span><span class="prompt-host">cybercore</span><span class="prompt-colon">:</span><span class="prompt-tilde">~</span><span class="prompt-dollar">$</span>
+          </label>
+          <input 
+            type="text" 
+            id="terminal-input" 
+            class="terminal-input" 
+            placeholder="Type a codeword (help, scan, inspect, solve, unlock, reset, clear)..." 
+            autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            spellcheck="false"
+            required
+            autofocus
+          >
+          <button type="submit" class="terminal-submit-btn" id="terminal-submit">EXECUTE ↵</button>
+        </form>
+      </section>
+
+    </main>
+
+    <!-- FOOTER STATUS STRIP -->
+    <footer class="cyber-footer">
+      <div class="footer-left">
+        <span>ESCAPE ROOM DIRECTIVE: BREACH ALL 3 FIREWALLS TO ESCAPE THE MAINFRAME.</span>
+      </div>
+      <div class="footer-right">
+        <span>PRESS <kbd>TAB</kbd> FOR AUTOCOMPLETE &bull; <kbd>↑</kbd><kbd>↓</kbd> FOR HISTORY</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- VICTORY MODAL OVERLAY -->
+  <div class="modal-overlay hidden" id="victory-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-alert-icon">🔓</div>
+        <h2 id="modal-title" class="modal-title">ACCESS GRANTED // MAINFRAME ESCAPED</h2>
+        <div class="modal-subtitle">ALL 3 ENCRYPTION LOCKS SUCCESSFULLY BYPASSED</div>
+      </div>
+      <div class="modal-body">
+        <div class="victory-stat-row">
+          <div class="stat-box">
+            <span class="stat-label">FINAL ESCAPE TIME</span>
+            <span class="stat-val highlight" id="modal-final-time">00:00.00</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">HACKER RANK</span>
+            <span class="stat-val neon-cyan" id="modal-rank">S-TIER NETRUNNER</span>
+          </div>
+        </div>
+
+        <!-- LEADERBOARD SUBMISSION -->
+        <div class="leaderboard-submission">
+          <label for="callsign-input">REGISTER CALLSIGN ON GLOBAL MAINFRAME:</label>
+          <div class="callsign-row">
+            <input type="text" id="callsign-input" maxlength="12" placeholder="CALLSIGN" value="CYBER_GHOST">
+            <button class="cyber-btn" id="save-score-btn">TRANSMIT</button>
+          </div>
+          <div id="submit-status" class="submit-status-msg"></div>
+        </div>
+
+        <!-- LEADERBOARD TABLE -->
+        <div class="leaderboard-section">
+          <div class="leaderboard-title">⚡ MAINFRAME ESCAPE HALL OF FAME</div>
+          <div class="leaderboard-table-wrapper" id="leaderboard-table-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>RANK</th>
+                  <th>OPERATOR</th>
+                  <th>TIME</th>
+                  <th>DATE</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body">
+                <!-- Dynamically populated from Python server or local storage -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cyber-btn primary-pulse" id="modal-replay-btn">GENERATE NEW ESCAPE ROOM (RESET)</button>
+        <button class="cyber-btn secondary" id="modal-close-btn">RETURN TO TERMINAL</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
